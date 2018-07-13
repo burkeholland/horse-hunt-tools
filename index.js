@@ -16,8 +16,9 @@ async function main() {
 
   let processed = [];
 
-  for (const item of results) {
+  results.forEach(item => {
     if (tweetProximityInMinutes(item) < 5) {
+      console.log(results.indexOf(item));
 
       let screenName = item.original.user.screen_name;
 
@@ -34,16 +35,14 @@ async function main() {
       // keep track of who we've processed
       processed.push(screenName);
     }
-  }
+  });
 }
 
 async function getAndSaveFollowers(tweet) {
-  // let followers = await getAllFollowers(tweet.original.user.screen_name);
+  let followers = await getAllFollowers(tweet.original.user.screen_name);
 
   // store these followers in the database
-  // saveFollowers(db, tweet, followers);
-
-  console.log(tweet.original.user.screen_name);
+  saveFollowers(db, tweet, followers);
 }
 
 async function getAllFollowers(screen_name, cursor, aggregator) {
